@@ -1,6 +1,6 @@
 import React from 'react';
 import { useCart } from '../context/CartContext';
-import { Card, CardHeader, CardContent, Input, Button  } from '@mui/material';
+import { Card, CardContent, Input, Button  } from '@mui/material';
 
 export const Cart = () => {
   const { cart, removeFromCart, updateQuantity, getTotal } = useCart();

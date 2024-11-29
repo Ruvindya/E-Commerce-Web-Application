@@ -1,0 +1,67 @@
+{
+    "products": [
+      {
+        "id": 1,
+        "name": "Product 1",
+        "price": 99.99,
+        "description": "This is product 1",
+        "image": "https://staranddaisy.in/wp-content/uploads/2023/08/Makeup-Stool-Iron-Dining-Chair-Business-Negotiation-Chair-Coffee-Chairpink.jpg"
+      },
+      {
+        "id": 2,
+        "name": "Product 2",
+        "price": 149.99,
+        "description": "This is product 2",
+        "image": "https://cdn.decornation.in/wp-content/uploads/2020/07/EULANEW-1.jpg"
+      },
+      {
+        "id": 3,
+        "name": "Product 3",
+        "price": 25.00,
+        "description": "This is product 3",
+        "image": "https://ouchcart.com/cdn/shop/products/Jazouli_25.5_Wide_Barrel_Chair_and_Ottoman.jpg?v=1721368347&width=800"
+      },
+      {
+        "id": 4,
+        "name": "Product 4",
+        "price": 110.00,
+        "description": "This is product 4",
+        "image": "https://ouchcart.com/cdn/shop/products/64Cm_Wide_Tufted_Velvet_Tub_Chair_1.webp?v=1721372547&width=700"
+      },
+      {
+        "id": 5,
+        "name": "Product 5",
+        "price": 149.99,
+        "description": "This is product 5",
+        "image": "https://ouchcart.com/cdn/shop/products/Boynton_Rocking_Chair.jpg?v=1721368285&width=800"
+      },
+      {
+        "id": 6,
+        "name": "Product 6",
+        "price": 25.00,
+        "description": "This is product 6",
+        "image": "https://ouchcart.com/cdn/shop/products/Aylin_84Cm_Wide_Velvet_Tub_Chair_1.webp?v=1721372547&width=700"
+      },
+      {
+        "id": 7,
+        "name": "Product 7",
+        "price": 110.00,
+        "description": "This is product 7",
+        "image": "https://ouchcart.com/cdn/shop/products/Jarrett_70Cm_Wide_Tufted_2.webp?v=1721372547&width=700"
+      },
+      {
+        "id": 8,
+        "name": "Product 8",
+        "price": 110.00,
+        "description": "This is product 8",
+        "image": "https://5.imimg.com/data5/PQ/KD/BP/SELLER-793981/modern-office-table-1000x1000.jpg"
+      },
+      {
+        "id": 9,
+        "name": "Product 9",
+        "price": 110.00,
+        "description": "This is product 9",
+        "image": "https://5.imimg.com/data5/SELLER/Default/2020/10/IK/CW/IH/114481958/l-shape-wooden-director-desk-1000x1000.png"
+      }
+    ]
+  }

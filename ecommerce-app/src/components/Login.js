@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardContent, Input, Button  } from '@mui/material';
+import '../index.css';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,14 +17,14 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
+    <div className="container mx-auto min-h-screen flex justify-center items-center bg-gray-100">
+      <Card className="w-full max-w-md flex justify-center items-center">
         <CardHeader>
           <h2 className="text-2xl font-bold">Login</h2>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
+            <div className='bg-red'>
               <Input
                 type="email"
                 placeholder="Email"

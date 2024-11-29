@@ -3,9 +3,9 @@ import { Login } from './components/Login';
 import { Signup } from './components/Signup';
 import { ProductList } from './components/ProductList';
 import { Cart } from './components/Cart';
-import { useAuth, AuthProvider } from './context/AuthContext';
+import {AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation, PrivateRoute } from './components/AppNav';
 
 
