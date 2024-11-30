@@ -5,7 +5,7 @@ import { ProductList } from './components/ProductList';
 import { Cart } from './components/Cart';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation, PrivateRoute } from './components/AppNav';
-
+import { ToastContainer } from 'react-toastify';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
@@ -15,6 +15,7 @@ function App() {
       <Router>
         <div className="min-h-screen bg-gray-100">
           <Navigation />
+          <ToastContainer />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

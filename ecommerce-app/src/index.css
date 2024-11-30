@@ -15,3 +15,22 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* .custom-toast {
+  background: #ffffff !important; 
+  color: rgb(0, 115, 209) !important;        
+}
+
+.custom-progress-bar {
+  background: #091c41 !important;  
+  
+}
+
+
+.Toastify__toast-container .Toastify__close-button {
+  color: rgb(67, 142, 253) !important;
+  opacity: 1 !important;
+}
+.Toastify__progress-bar--success.custom-progress-bar {
+  background: #091c41 !important;  
+} */

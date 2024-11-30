@@ -17,10 +17,8 @@ export const ProductList = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState(productData.products);
   
-  // Get unique categories
   const categories = [...new Set(productData.products.map(product => product.category))];
   
-  // Get min and max prices
   const maxPrice = Math.max(...productData.products.map(product => product.price));
   const minPrice = Math.min(...productData.products.map(product => product.price));
 
@@ -38,7 +36,7 @@ export const ProductList = () => {
     setSelectedCategories([]);
   };
 
-  // Filter products based on all criteria
+  
   useEffect(() => {
     const filtered = productData.products.filter(product => {
       const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -54,15 +52,15 @@ export const ProductList = () => {
   return (
     <div className="container mx-auto p-4 ">
        <h2 className="text-2xl font-bold">Our Products</h2>
-      <div className='flex flew-row gap-10 pt-5'>
-        <div className='w-1/4'>
-          {/* Filters Section */}
+      <div className='flex flew-row gap-10 pt-2'>
+        <div className='w-1/4 mt-2'>
+
             <Card className="mb-8 shadow-md">
               <CardContent>
                 <div className="flex flex-col space-y-6">
-                  {/* Search Bar */}
+ 
                   <div className="relative">
-                    <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+                    <Search className="absolute left-3 top-2.5  w-5 text-gray-400" />
                     <TextField
                       fullWidth
                       placeholder="Search products..."
@@ -71,11 +69,11 @@ export const ProductList = () => {
                       InputProps={{
                         startAdornment: <div className="w-10" />,
                       }}
-                      className="rounded-lg"
+                      className="rounded-lg h-12"
                     />
                   </div>
 
-                  {/* Category Filters */}
+ 
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <Filter  className="h-5 w-5" />
@@ -95,12 +93,56 @@ export const ProductList = () => {
                     </div>
                   </div>
 
-                  {/* Price Range Slider */}
+    
                   <div>
-                    <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-4 mt-2">
+                      <div className="flex items-center gap-2 text-sm">
+                        <TextField
+                          label="Min Price"
+                          type="number"
+                          size="small"
+                          value={priceRange[0]}
+                          onChange={(e) => {
+                            const value = Number(e.target.value);
+                            if (value <= priceRange[1]) {
+                              setPriceRange([value, priceRange[1]]);
+                            }
+                          }}
+         
+                          inputProps={{
+                            min: minPrice,
+                            max: priceRange[1],
+                          }}
+                          className="w-24 text-sm"
+                        />
+                      </div>
+                      <span className="text-gray-500">-</span>
+                      <div className="flex items-center gap-2">
+                        <TextField
+                          label="Max Price"
+                          type="number"
+                          size="small"
+                          value={priceRange[1]}
+                          onChange={(e) => {
+                            const value = Number(e.target.value);
+                            if (value >= priceRange[0]) {
+                              setPriceRange([priceRange[0], value]);
+                            }
+                          }}
+   
+                          inputProps={{
+                            min: priceRange[0],
+                            max: maxPrice,
+                          }}
+                          className="w-24"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-3 mb-2">
                       <span className="font-medium">Price Range</span>
                       <span className="text-sm text-gray-500">
-                        ${priceRange[0]} - ${priceRange[1]}
+                      LKR{priceRange[0]} - LKR{priceRange[1]}
                       </span>
                     </div>
                     <Slider
@@ -125,13 +167,13 @@ export const ProductList = () => {
         </div>
 
         <div>
-            {/* Results Count */}
+        
             <div className="mb-4 text-gray-600">
               Showing {filteredProducts.length} of {productData.products.length} products
             </div>
 
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
               {filteredProducts.map((product) => (
                 <ProductCard 
                   key={product.id} 
@@ -140,23 +182,14 @@ export const ProductList = () => {
               ))}
             </div>
 
-            {/* No Results Message */}
+            
             {filteredProducts.length === 0 && (
               <div className="text-center py-8 text-gray-500">
                 No products match your filters. Try adjusting your search criteria.
               </div>
             )}
         </div>
-
-        
-
       </div>
-
-      
-      
-
-      
-
       
     </div>
   );
