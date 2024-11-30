@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Card, CardHeader, CardContent, Input, Button  } from '@mui/material';
-import '../index.css';
+import { login } from '../store/authSlice';
+import { Card, CardHeader, CardContent, Button , Input} from '@mui/material';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login(email, password);
+    dispatch(login({ email }));
     navigate('/products');
   };
 
   return (
-    <div className="container mx-auto min-h-screen flex justify-center items-center bg-gray-100">
-      <Card className="w-full max-w-md flex justify-center items-center">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <Card className="w-full max-w-md">
         <CardHeader>
           <h2 className="text-2xl font-bold">Login</h2>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className='bg-red'>
+            <div>
               <Input
                 type="email"
                 placeholder="Email"
