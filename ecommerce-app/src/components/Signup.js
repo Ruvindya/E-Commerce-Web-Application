@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { signup } from '../store/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { signup, selectUser  } from '../store/authSlice';
 import { Card, CardHeader, CardContent, Input, Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import EmailExistsModal from './EmailExistsModal';
 
 
 const SignupSchema = Yup.object().shape({
@@ -20,17 +21,29 @@ const SignupSchema = Yup.object().shape({
     .required('Password is required'),
 });
 
-
-
 export const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    console.log("handle submit called", values);
-    dispatch(signup({ email: values.email }));
-    navigate('/products');
-    setSubmitting(false);
+  useEffect(() => {
+    if (user) {
+      navigate('/products');
+    }
+  }, [user, navigate]);
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      await dispatch(signup({ 
+        email: values.email,
+        password: values.password,
+        createdAt: new Date().toISOString()
+      })).unwrap();
+    } catch (error) {
+      console.error('Signup failed:', error);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -84,8 +97,11 @@ export const Signup = () => {
                   {isSubmitting ? 'Signing up...' : 'Sign Up'}
                 </Button>
               </Form>
+              
             )}
+            
           </Formik>
+          <EmailExistsModal />
         </CardContent>
       </Card>
     </div>
