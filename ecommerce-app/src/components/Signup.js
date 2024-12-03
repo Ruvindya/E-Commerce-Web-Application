@@ -6,6 +6,7 @@ import { Card, CardHeader, CardContent, Input, Button } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import EmailExistsModal from './EmailExistsModal';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const SignupSchema = Yup.object().shape({
@@ -37,7 +38,8 @@ export const Signup = () => {
       await dispatch(signup({ 
         email: values.email,
         password: values.password,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        id: uuidv4(),
       })).unwrap();
     } catch (error) {
       console.error('Signup failed:', error);
