@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login, selectLoginError } from '../store/authSlice';
 import { Card, CardHeader, CardContent, Button , Input} from '@mui/material';
+import { toast } from 'react-toastify';
+
 
 export const Login = () => {
   const [email, setEmail] = useState('');
@@ -10,11 +12,23 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const loginError = useSelector(selectLoginError);
+  const user = useSelector(state => state.auth.user);
+
+  useEffect(() => {
+    if (user) {
+      toast.success(`Welcome back ${user.email}`);
+      navigate('/products');
+    }
+  }, [user, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(login({ email, password }));
-    navigate('/products');
+    if(loginError){
+      setEmail('');
+      setPassword('');
+    }
+   
   };
 
   return (

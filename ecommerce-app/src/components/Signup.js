@@ -8,7 +8,6 @@ import * as Yup from 'yup';
 import EmailExistsModal from './EmailExistsModal';
 import { v4 as uuidv4 } from 'uuid';
 
-
 const SignupSchema = Yup.object().shape({
   email: Yup.string()
     .email('Invalid email address')
@@ -21,6 +20,15 @@ const SignupSchema = Yup.object().shape({
     )
     .required('Password is required'),
 });
+
+const CustomInput = ({ field, form: { touched, errors }, ...props }) => (
+  <div className="space-y-2">
+    <Input {...field} {...props} className="w-full px-4 py-2" />
+    {touched[field.name] && errors[field.name] && (
+      <div className="text-red-500 text-sm">{errors[field.name]}</div>
+    )}
+  </div>
+);
 
 export const Signup = () => {
   const dispatch = useDispatch();
@@ -35,7 +43,7 @@ export const Signup = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await dispatch(signup({ 
+      await dispatch(signup({
         email: values.email,
         password: values.password,
         createdAt: new Date().toISOString(),
@@ -49,11 +57,12 @@ export const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <h2 className="text-2xl font-bold">Sign Up</h2>
-        </CardHeader>
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4">
+      <Card className="w-full max-w-md mx-auto">
+      <CardHeader
+          title="SignUp"
+          className="text-2xl font-bold text-center text-gray-800"
+        />
         <CardContent>
           <Formik
             initialValues={{
@@ -63,45 +72,31 @@ export const Signup = () => {
             validationSchema={SignupSchema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched, isSubmitting }) => (
-              <Form className="space-y-4">
-                <div>
-                  <Field
-                    as={Input}
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    fullWidth
-                  />
-                  {errors.email && touched.email && (
-                    <div className="text-red-500 text-sm mt-1">{errors.email}</div>
-                  )}
-                </div>
+            {({ isSubmitting }) => (
+              <Form className="space-y-6">
+                <Field
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  component={CustomInput}
+                />
 
-                <div>
-                  <Field
-                    as={Input}
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    fullWidth
-                  />
-                  {errors.password && touched.password && (
-                    <div className="text-red-500 text-sm mt-1">{errors.password}</div>
-                  )}
-                </div>
+                <Field
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  component={CustomInput}
+                />
 
                 <Button 
-                  type="submit" 
-                  className="w-full"
+                  type="submit"
                   disabled={isSubmitting}
+                  className="w-full py-2"
                 >
                   {isSubmitting ? 'Signing up...' : 'Sign Up'}
                 </Button>
               </Form>
-              
             )}
-            
           </Formik>
           <EmailExistsModal />
         </CardContent>
@@ -109,3 +104,5 @@ export const Signup = () => {
     </div>
   );
 };
+
+export default Signup;

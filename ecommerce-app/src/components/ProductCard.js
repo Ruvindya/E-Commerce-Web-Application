@@ -5,16 +5,20 @@ import { selectUser } from '../store/authSlice';
 import { Card, CardContent, Button , CardMedia} from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const handleAddToCart = (product) => {
 
     if (!user?.id) {
-      toast.error('Please log in to add items to your cart.');
+      toast.error('Please login.', {
 
+      onClick: () => navigate('/login')
+      });
       return;
     }
     const productWithUserId = { ...product, userId: user.id };
