@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const loadCartFromStorage = () => {
   try {
     const savedCart = localStorage.getItem('cart');
-    return savedCart ? JSON.parse(savedCart) : [];
+    const allCartItems = savedCart ? JSON.parse(savedCart) : [];
+    return userId ? allCartItems.filter(item => item.userId === userId) : [];
   } catch (error) {
     console.error('Error loading cart from localStorage:', error);
     return [];
