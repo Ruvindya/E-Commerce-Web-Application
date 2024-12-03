@@ -1,15 +1,27 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
+import { selectUser } from '../store/authSlice';
 import { Card, CardContent, Button , CardMedia} from '@mui/material';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product));
+
+    if (!user?.id) {
+      toast.error('Please log in to add items to your cart.');
+
+      return;
+    }
+    const productWithUserId = { ...product, userId: user.id };
+
+
+
+    dispatch(addToCart(productWithUserId));
     toast.success('Item added to cart!', {
       position: "top-right",
       autoClose: 2000,

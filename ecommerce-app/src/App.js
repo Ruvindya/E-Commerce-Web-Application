@@ -13,7 +13,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="h-screen w-screen overflow-hidden min-h-screen bg-gray-100">
+        <div className="h-screen w-screen  min-h-screen bg-gray-100">
           <Navigation />
           <ToastContainer />
           <Routes>

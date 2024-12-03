@@ -1,8 +1,9 @@
 import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, logout } from '../store/authSlice';
-import { selectCartCount } from '../store/cartSlice';
+import { selectCart } from '../store/cartSlice';
 import { ShoppingCart } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export const PrivateRoute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -11,8 +12,19 @@ export const PrivateRoute = ({ children }) => {
 
 export const Navigation = () => {
   const user = useSelector(selectUser);
-  const cartCount = useSelector(selectCartCount);
+  const cart = useSelector(selectCart);
   const dispatch = useDispatch();
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCount = (e) => setCartCount(e.detail.count);
+    window.addEventListener('updateCartCount', updateCount);
+
+    const userItems = cart.filter(item => item.userId === user?.id).length;
+    setCartCount(userItems);
+
+    return () => window.removeEventListener('updateCartCount', updateCount);
+  }, [cart, user]);
 
   return (
     <>
@@ -22,6 +34,7 @@ export const Navigation = () => {
           <div className="space-x-4 flex items-center">
             {user ? (
               <>
+              <h2>Welcome {user.email}</h2>
                 <Link to="/products">Products</Link>
                 <Link to="/cart" className="relative inline-flex items-center">
                   <ShoppingCart className="w-6 h-6" />

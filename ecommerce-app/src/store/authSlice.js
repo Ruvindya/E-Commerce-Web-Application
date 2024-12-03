@@ -12,60 +12,91 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login: (state, action) => {
-
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const user = users.find(user => 
-        user.email === action.payload.email && 
-        user.password === action.payload.password
-      );
-
-      if (!user) {
-        state.loginError = 'Invalid email or password';
-        state.user = null;
-        return;
+      try {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(user => 
+          user.email === action.payload.email && 
+          user.password === action.payload.password
+        );
+  
+        if (!user) {
+          state.loginError = 'Invalid email or password';
+          state.user = null;
+          return;
+        }
+  
+        // state.user = action.payload;
+        // state.loginError = null;
+        state.user = user;
+        state.loginError = null;
+        localStorage.setItem('user', JSON.stringify(user));
+      } catch (error) {
+        console.error('Error getting data for Login', error);
+        return [];
       }
-
-      state.user = action.payload;
-      state.loginError = null;
-      localStorage.setItem('user', JSON.stringify(action.payload));
+     
     },
     logout: (state) => {
-      state.user = null;
-      localStorage.removeItem('user');
+      try {
+        state.user = null;
+        localStorage.removeItem('user');
+      } catch (error) {
+        console.error('Error removing user from local storage for Logout', error);
+        return [];
+      }
+     
     },
     signup: (state, action) => {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-      const emailExists = users.some(user => user.email === action.payload.email);
-      
-      if (emailExists) {
-        state.showEmailExistsModal = true;
-        state.emailCheckError = 'Email already exists';
-        return;
-      }
-      if (!emailExists){
-        state.user = action.payload;
-        users.push(action.payload);
-        localStorage.setItem('users', JSON.stringify(users));
-        localStorage.setItem('user', JSON.stringify(action.payload));
+      try {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const emailExists = users.some(user => user.email === action.payload.email);
         
-        state.showEmailExistsModal = false;
-        state.emailCheckError = null;
-      }
+        if (emailExists) {
+          state.showEmailExistsModal = true;
+          state.emailCheckError = 'Email already exists';
+          return;
+        }
+        if (!emailExists){
+          state.user = action.payload;
+          users.push(action.payload);
+          localStorage.setItem('users', JSON.stringify(users));
+          localStorage.setItem('user', JSON.stringify(action.payload));
+          
+          state.showEmailExistsModal = false;
+          state.emailCheckError = null;
+        }
 
-      console.group('User Login Details');
-      console.log('User ID:', action.payload.id);
-      console.log('Email:', action.payload.email);
-      console.log('Created At:', action.payload.createdAt);
-      console.log('Full User Object:', action.payload);
-      console.groupEnd();
+        console.group('User Login Details');
+        console.log('User ID:', action.payload.id);
+        console.log('Email:', action.payload.email);
+        console.log('Created At:', action.payload.createdAt);
+        console.log('Full User Object:', action.payload);
+        console.groupEnd();
+      } catch (error) {
+        console.error('Error in Signup', error);
+        return [];
+      }
+      
       
     },
     closeEmailExistsModal: (state) => {
-      state.showEmailExistsModal = false;
-      state.emailCheckError = null;
+      try {
+        state.showEmailExistsModal = false;
+        state.emailCheckError = null;
+      } catch (error) {
+        console.error('Error in closing email exist modal', error);
+        return [];
+      }
+      
     },
     clearLoginError: (state) => {
-      state.loginError = null;
+      try {
+        state.loginError = null;
+      } catch (error) {
+        console.error('Error in clear login', error);
+        return [];
+      }
+      
     },
   },
 });
