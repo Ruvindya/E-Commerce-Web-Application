@@ -20,10 +20,9 @@ const wishlistSlice = createSlice({
   },
 });
 
-// Actions
+
 export const { addToWishlist, removeFromWishlist } = wishlistSlice.actions;
 
-// Selectors
 export const selectWishlist = (state) => state.wishlist.wishlist;
 
 export default wishlistSlice.reducer;
