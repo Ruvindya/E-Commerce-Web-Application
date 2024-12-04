@@ -7,18 +7,39 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { Heart } from 'lucide-react';
+import { addToWishlist, removeFromWishlist  } from '../store/wishlistSlice';
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, isWishlistPage = false }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const navigate = useNavigate();
 
+  const handleAddToWishlist = (product) => {
+    dispatch(addToWishlist(product)); 
+    toast.success('Item added to wishlist!', {
+      position: "top-right",
+      autoClose: 900,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+
+    });
+  };
+
+  const handleRemoveFromWishlist = (product) => {
+    dispatch(removeFromWishlist(product));
+  };
+
   const handleCardClick = () => {
     navigate(`/product/${product.id}`);
+
   };
 
   const handleAddToCart = (product) => {
     try {
+      dispatch(removeFromWishlist(product));
       
       if (!user?.id) {
         toast.error('Please login.', {
@@ -72,7 +93,7 @@ export const ProductCard = ({ product }) => {
               >
                 Add to Cart
               </button> */}
-              <div className="flex gap-4 mt-2">
+              <div className="flex gap-4 mt-2 justify-between">
                 <button 
                   onClick={(e) => {
                     e.stopPropagation(); 
@@ -83,16 +104,37 @@ export const ProductCard = ({ product }) => {
                 >
                   Add to Cart
                 </button>
-                
-                <button 
+
+                {isWishlistPage ? (
+                  <button
+                    onClick={(e) => {e.stopPropagation(); handleRemoveFromWishlist(product);}}
+                    className="mt-4 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-500 transition-colors"
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button 
                   onClick={(e) => {
-                    e.stopPropagation(); // this is uuse for preventing the card click from firing when the heart is clicked
+                    e.stopPropagation();
+                    handleAddToWishlist(product); 
                     
                   }}
                   className="p-3 border rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <Heart className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors" />
                 </button>
+                )}
+                
+                {/* <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToWishlist(product); 
+                    
+                  }}
+                  className="p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <Heart className="w-5 h-5 text-gray-600 hover:text-red-500 transition-colors" />
+                </button> */}
               </div>
               
             </CardContent>

@@ -4,7 +4,7 @@ import productData from '../data/products.json';
 const initialState = {
   products: productData.products,
   loading: false,
-  error: null
+  error: null,
 };
 
 const productSlice = createSlice({

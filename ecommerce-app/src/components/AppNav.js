@@ -2,7 +2,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, logout } from '../store/authSlice';
 import { selectCart } from '../store/cartSlice';
-import { ShoppingCart, Menu, X, LogOut as LogOutIcon  } from 'lucide-react';
+import { ShoppingCart, Menu, X, LogOut as LogOutIcon, Heart  } from 'lucide-react';
 import { useState, useEffect, useRef  } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -123,6 +123,7 @@ export const Navigation = () => {
         <>
           <div className="text-sm mb-2 md:mb-0 md:text-base">Welcome {user.email}</div>
           <Link to="/products" className="block py-2 md:py-0" onClick={() => setIsOpen(false)}>Products</Link>
+          <Link to="/wishlist"><Heart className="w-5 h-5  transition-colors" /></Link>
           <Link to="/cart" className="relative inline-flex items-center py-2 md:py-0" onClick={() => setIsOpen(false)}>
             <ShoppingCart className="w-6 h-6" />
             {cartCount > 0 && (

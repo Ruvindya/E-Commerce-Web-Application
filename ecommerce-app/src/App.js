@@ -3,6 +3,7 @@ import { Login } from './components/Login';
 import { Signup } from './components/Signup';
 import { ProductList } from './components/ProductList';
 import { ProductDetails  } from './components/ProductDetails';
+import { WishlistPage } from './components/WishlistPage';
 import { Cart } from './components/Cart';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation, PrivateRoute } from './components/AppNav';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/products" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
             {/* <Route 
               path="/products" 
               element={
