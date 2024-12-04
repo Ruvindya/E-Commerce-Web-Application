@@ -88,13 +88,13 @@ export const Signup = () => {
                   component={CustomInput}
                 />
 
-                <Button 
+                <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-2"
+                  className="w-full py-2 bg-gray-800 text-white rounded-lg text-lg font-semibold hover:bg-gray-600 transition-colors"
                 >
                   {isSubmitting ? 'Signing up...' : 'Sign Up'}
-                </Button>
+                </button>
               </Form>
             )}
           </Formik>

@@ -23,19 +23,16 @@ export const ProductCard = ({ product }) => {
     }
     const productWithUserId = { ...product, userId: user.id };
 
-
-
     dispatch(addToCart(productWithUserId));
     toast.success('Item added to cart!', {
       position: "top-right",
-      autoClose: 2000,
+      autoClose: 900,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      // className: 'custom-toast',
-      // progressClassName: 'custom-progress-bar'
+
     });
   };
 
@@ -58,12 +55,12 @@ export const ProductCard = ({ product }) => {
               <h3 className="text-xl font-semibold">{product.name}</h3>
               <p className="text-gray-600">{product.description}</p>
               <p className="text-lg font-bold mt-2">LKR {product.price}</p>
-              <Button 
+              <button 
                 onClick={() => handleAddToCart(product)}
-                className="w-full mt-4"
+                className=" bg-gray-800 text-white text-sm py-1 px-2 mt-2 rounded-lg text-lg font-semibold hover:bg-gray-600 transition-colors"
               >
                 Add to Cart
-              </Button>
+              </button>
             </CardContent>
           </Card>
   );

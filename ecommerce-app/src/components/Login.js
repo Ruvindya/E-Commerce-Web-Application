@@ -16,7 +16,14 @@ export const Login = () => {
 
   useEffect(() => {
     if (user) {
-      toast.success(`Welcome back ${user.email}`);
+      toast.success(`Welcome back ${user.email} `, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,} );
       navigate('/products');
     }
   }, [user, navigate]);
@@ -90,9 +97,12 @@ export const Login = () => {
           </div>
 
             
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+          <button
+            type="submit"
+            className="w-full bg-gray-800 text-white py-3 rounded-lg text-lg font-semibold hover:bg-gray-600 transition-colors"
+          >
+            Login
+          </button>
           </form>
         </CardContent>
       </Card>

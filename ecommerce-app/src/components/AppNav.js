@@ -2,8 +2,11 @@ import { Link, Navigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUser, logout } from '../store/authSlice';
 import { selectCart } from '../store/cartSlice';
-import { ShoppingCart, Menu, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { ShoppingCart, Menu, X, LogOut as LogOutIcon  } from 'lucide-react';
+import { useState, useEffect, useRef  } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const PrivateRoute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -16,19 +19,75 @@ export const Navigation = () => {
   const dispatch = useDispatch();
   const [cartCount, setCartCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const logoutModalRef = useRef(null);
 
-  useEffect(() => {
-    const updateCount = (e) => setCartCount(e.detail.count);
-    window.addEventListener('updateCartCount', updateCount);
+    useEffect(() => {
+      const updateCount = (e) => setCartCount(e.detail.count);
+      window.addEventListener('updateCartCount', updateCount);
 
-    const userItems = cart.filter(item => item.userId === user?.id).length;
-    setCartCount(userItems);
+      const userItems = cart.filter(item => item.userId === user?.id).length;
+      setCartCount(userItems);
 
-    return () => window.removeEventListener('updateCartCount', updateCount);
-  }, [cart, user]);
+      const handleClickOutside = (event) => {
+        if (logoutModalRef.current && !logoutModalRef.current.contains(event.target)) {
+          setShowLogoutModal(false);
+        }
+      };
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        window.removeEventListener('updateCartCount', updateCount);
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, [cart, user]);
 
+    const toggleMenu = () => setIsOpen(!isOpen);
+
+    const handleLogoutClick = () => {
+      console.log("Logout button clicked");
+      setShowLogoutModal(!showLogoutModal);
+    };
+
+    const handleConfirmLogout = () => {
+      console.log("Logout confirm button clicked");
+      dispatch(logout());
+      toast.success('LogOut Success', {
+        position: "top-right",
+        autoClose: 900,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+  
+      });
+      setTimeout(() => {
+        setShowLogoutModal(false);
+        setIsOpen(false);
+      }, 1000);
+    };
+
+    const LogoutModal = () => (
+      <div 
+        ref={logoutModalRef}
+        className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 text-gray-800 z-50"
+        style={{ minWidth: '200px' }}
+      >
+        <div className="p-4">
+          <div className="text-sm font-medium mb-2">Logged in as:</div>
+          <div className="text-sm text-gray-600 mb-4 break-all">{user?.email}</div>
+          <button
+            onClick={handleConfirmLogout}
+            className="w-full flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition-colors"
+          >
+            <LogOutIcon className="w-4 h-4" />
+            Confirm Logout
+          </button>
+        </div>
+      </div>
+    );
+    
   const NavLinks = () => (
     <>
       {user ? (
@@ -43,15 +102,16 @@ export const Navigation = () => {
               </span>
             )}
           </Link>
-          <button 
-            onClick={() => {
-              dispatch(logout());
-              setIsOpen(false);
-            }} 
-            className="hover:bg-gray-700 px-3 py-1 rounded w-full md:w-auto text-right md:text-center"
->
-            Logout
-          </button>
+          <div className="relative">
+            <button 
+              onClick={handleConfirmLogout} 
+              className="hover:bg-gray-700 px-3 py-1 rounded w-full md:w-auto text-right md:text-center flex items-center gap-2"
+            >
+              <LogOutIcon className="w-4 h-4" />
+              Logout
+            </button>
+            {showLogoutModal && <LogoutModal />}
+          </div>
         </>
       ) : (
         <>
@@ -80,7 +140,7 @@ export const Navigation = () => {
         </div>
 
         {/* Mobile Menu */}
-        <div className={`${isOpen ? 'block' : 'hidden'} md:hidden absolute top-full right-0 bg-gray-800  p-4 shadow-lg space-y-2 flex flex-col items-end pr-10`}>
+        <div className={`${isOpen ? 'block' : 'hidden'} md:hidden absolute top-full right-0 bg-gray-800 p-4 shadow-lg space-y-2 flex flex-col items-end pr-10`}>
           <NavLinks />
         </div>
       </nav>
@@ -88,3 +148,5 @@ export const Navigation = () => {
     </>
   );
 };
+
+export default Navigation;

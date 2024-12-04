@@ -125,7 +125,7 @@ export const Cart = () => {
               <p className="text-2xl font-bold">Total:</p>
               <p className="text-2xl font-bold">${userTotal.toFixed(2)}</p>
             </div>
-            <button className="w-full bg-gray-800 text-white py-3 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-colors">
+            <button className="w-full bg-gray-800 text-white py-3 rounded-lg text-lg font-semibold hover:bg-gray-600 transition-colors">
               Make Payment
             </button>
           </div>
