@@ -22,25 +22,39 @@ export const Navigation = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const logoutModalRef = useRef(null);
 
-    useEffect(() => {
+  useEffect(() => {
+    try {
       const updateCount = (e) => setCartCount(e.detail.count);
       window.addEventListener('updateCartCount', updateCount);
-
+  
       const userItems = cart.filter(item => item.userId === user?.id).length;
       setCartCount(userItems);
-
+  
       const handleClickOutside = (event) => {
         if (logoutModalRef.current && !logoutModalRef.current.contains(event.target)) {
           setShowLogoutModal(false);
         }
       };
-
+  
       document.addEventListener('mousedown', handleClickOutside);
+  
       return () => {
         window.removeEventListener('updateCartCount', updateCount);
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [cart, user]);
+    } catch (error) {
+      console.error("Error in useEffect:", error);
+      toast.error('An error occurred while setting up event listeners.', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  }, [cart, user]);
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -49,23 +63,38 @@ export const Navigation = () => {
       setShowLogoutModal(!showLogoutModal);
     };
 
-    const handleConfirmLogout = () => {
-      console.log("Logout confirm button clicked");
-      dispatch(logout());
-      toast.success('LogOut Success', {
-        position: "top-right",
-        autoClose: 900,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-  
-      });
-      setTimeout(() => {
-        setShowLogoutModal(false);
-        setIsOpen(false);
-      }, 1000);
+    const handleConfirmLogout = async () => {
+      try {
+        console.log("Logout confirm button clicked");
+        await dispatch(logout());
+        
+        // Show success toast
+        toast.success('LogOut Success', {
+          position: "top-right",
+          autoClose: 900,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+
+        setTimeout(() => {
+          setShowLogoutModal(false);
+          setIsOpen(false);
+        }, 1000);
+      } catch (error) {
+        console.error("Logout failed", error);
+        toast.error('LogOut Failed. Please try again.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      }
     };
 
     const LogoutModal = () => (

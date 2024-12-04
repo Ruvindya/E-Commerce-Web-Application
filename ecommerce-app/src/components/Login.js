@@ -28,14 +28,29 @@ export const Login = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }));
-    if(loginError){
-      setEmail('');
-      setPassword('');
+
+    try {
+      dispatch(login({ email, password }));
+      if (loginError) {
+        setEmail('');
+        setPassword('');
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      toast.error("Login failed. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
-   
+
+    
   };
 
   return (

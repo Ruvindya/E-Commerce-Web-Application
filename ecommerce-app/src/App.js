@@ -2,6 +2,7 @@ import './App.css';
 import { Login } from './components/Login';
 import { Signup } from './components/Signup';
 import { ProductList } from './components/ProductList';
+import { ProductDetails  } from './components/ProductDetails';
 import { Cart } from './components/Cart';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Navigation, PrivateRoute } from './components/AppNav';
@@ -20,6 +21,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/products" element={<ProductList />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             {/* <Route 
               path="/products" 
               element={
